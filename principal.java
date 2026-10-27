@@ -1,6 +1,6 @@
 public class principal {
     public static void main(String[] args) {
-        batalhanaval form = new batalhanaval();
+        BatalhaNaval form = new BatalhaNaval();
         form.setVisible(true);
-    } 
+    }
 }
