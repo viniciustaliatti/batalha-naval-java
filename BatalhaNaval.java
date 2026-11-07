@@ -22,21 +22,22 @@ public class BatalhaNaval extends JFrame {
     private static final int TOTAL_TIROS = 30;
     private static final int CELULA = 80; // tamanho de cada casa em pixels
 
-    private static final String[] NOMES = {"Porta-aviões", "Encouraçado", "Cruzador", "Submarino", "Destroyer"};
-    private static final int[] TAMANHOS = {5, 4, 3, 3, 2};
+    private static final String[] NOMES = {"Porta-aviões", "Encouraçado", "Cruzador", "Submarino","Submarino"
+    ,"Submarino","Submarino", "Destroyer","Destroyer"};
+    private static final int[] TAMANHOS = {5, 4, 3, 1, 1, 1, 1, 2, 2};
     private static final String[] IMAGENS = {
         "Aircraft-Carrier.png",
         "battleship.png",
         "cruiser.png",
-        "submarino.png",
-        "destroyer.png"
+        "submarino.png", "submarino.png", "submarino.png", "submarino.png",
+        "destroyer.png", "destroyer.png"
     };
 
     // Pastas onde o programa tenta achar as imagens
     private static final String[] PASTAS = {
+         "batalha-naval-java/images/",
         "images/",
-        "batalha-naval-java-main/images/",
-        "../batalha-naval-java-main/images/",
+        "../batalha-naval-java/images/",
         "../images/"
     };
 
@@ -169,7 +170,8 @@ public class BatalhaNaval extends JFrame {
 
         if (id == 0) {
             botao.setText("X");
-            botao.setBackground(Color.LIGHT_GRAY);
+            botao.setForeground(Color.WHITE);
+            botao.setBackground(Color.RED);
             resultado = "Água";
         } else {
             marcarAcerto(linha, coluna);
