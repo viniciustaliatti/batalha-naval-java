@@ -22,15 +22,15 @@ public class principal {
             );
 
             if (escolha == 0) {
-                // FÁCIL: abre o jogo que já está pronto
-                BatalhaNaval form = new BatalhaNaval();
+                BatalhaNaval form = new BatalhaNaval(false);
                 form.setVisible(true);
                 return;
+
             } else if (escolha == 1) {
-                // DIFÍCIL: ainda não implementada, volta para o menu
-                JOptionPane.showMessageDialog(null, "A dificuldade Difícil ainda não está disponível.");
+                BatalhaNaval form = new BatalhaNaval(true);
+                form.setVisible(true);
+                return;
             } else {
-                // Fechou a janela ou cancelou
                 System.exit(0);
             }
         }
