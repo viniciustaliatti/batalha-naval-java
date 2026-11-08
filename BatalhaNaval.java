@@ -18,20 +18,13 @@ import javax.swing.SwingConstants;
 
 public class BatalhaNaval extends JFrame {
 
-    private static final int TAMANHO = 6;
-    private static final int TOTAL_TIROS = 30;
+    private int TAMANHO;
+    private int TOTAL_TIROS;
     private static final int CELULA = 80; // tamanho de cada casa em pixels
 
-    private static final String[] NOMES = {"Porta-aviões", "Encouraçado", "Cruzador", "Submarino","Submarino"
-    ,"Submarino","Submarino", "Destroyer","Destroyer"};
-    private static final int[] TAMANHOS = {5, 4, 3, 1, 1, 1, 1, 2, 2};
-    private static final String[] IMAGENS = {
-        "Aircraft-Carrier.png",
-        "battleship.png",
-        "cruiser.png",
-        "submarino.png", "submarino.png", "submarino.png", "submarino.png",
-        "destroyer.png", "destroyer.png"
-    };
+    private String[] NOMES;
+    private int[] TAMANHOS;
+    private String[] IMAGENS;
 
     // Pastas onde o programa tenta achar as imagens
     private static final String[] PASTAS = {
@@ -42,31 +35,98 @@ public class BatalhaNaval extends JFrame {
     };
 
     // 0 = água, 1..5 = navio (índice do navio + 1)
-    private int[][] tabuleiro = new int[TAMANHO][TAMANHO];
-    private boolean[][] jaAtirado = new boolean[TAMANHO][TAMANHO];
-    private ImageIcon[][] fatias = new ImageIcon[TAMANHO][TAMANHO]; // pedaço da imagem de cada casa
-    private JButton[][] botoes = new JButton[TAMANHO][TAMANHO];
+    private int[][] tabuleiro;
+    private boolean[][] jaAtirado;
+    private ImageIcon[][] fatias; // pedaço da imagem de cada casa
+    private JButton[][] botoes;
 
-    private int[] acertos = new int[NOMES.length];
+    private int[] acertos;
     private int naviosAfundados = 0;
 
-    private int tirosRestantes = TOTAL_TIROS;
+    private int tirosRestantes;
     private JLabel lblTiros;
 
     public BatalhaNaval() {
-        setTitle("Batalha Naval - Fácil");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        lblTiros = new JLabel("Tiros restantes: " + tirosRestantes, SwingConstants.CENTER);
-        add(lblTiros, BorderLayout.NORTH);
-
-        posicionarNavios();
-        add(criarPainelTabuleiro(), BorderLayout.CENTER);
-
-        pack();
-        setLocationRelativeTo(null);
+        this(false);
     }
+    public BatalhaNaval(boolean dificil){
+        if(dificil){
+        TAMANHO = 8;
+        TOTAL_TIROS = 40;
+
+        NOMES = new String[] {
+            "Porta-aviões",
+            "Encouraçado", "Encouraçado",
+            "Cruzador", "Cruzador",
+            "Submarino", "Submarino", "Submarino", "Submarino", "Submarino", "Submarino",
+            "Destroyer", "Destroyer"
+        };
+
+        TAMANHOS = new int[] {
+            5, 4, 4, 3, 3, 1, 1, 1, 1, 1, 1, 2, 2
+        };
+
+        IMAGENS = new String[] {
+            "Aircraft-Carrier.png",
+            "battleship.png", "battleship.png",
+            "cruiser.png", "cruiser.png",
+            "submarino.png", "submarino.png",
+            "submarino.png", "submarino.png",
+            "submarino.png", "submarino.png",
+            "destroyer.png", "destroyer.png"
+        };
+
+    } else {
+
+        TAMANHO = 6;
+        TOTAL_TIROS = 30;
+
+        NOMES = new String[] {
+            "Porta-aviões", "Encouraçado", "Cruzador",
+            "Submarino", "Submarino", "Submarino", "Submarino",
+            "Destroyer", "Destroyer"
+        };
+
+        TAMANHOS = new int[] {
+            5, 4, 3, 1, 1, 1, 1, 2, 2
+        };
+
+        IMAGENS = new String[] {
+            "Aircraft-Carrier.png",
+            "battleship.png",
+            "cruiser.png",
+            "submarino.png", "submarino.png",
+            "submarino.png", "submarino.png",
+            "destroyer.png", "destroyer.png"
+        };
+    }
+
+    tirosRestantes = TOTAL_TIROS;
+
+    tabuleiro = new int[TAMANHO][TAMANHO];
+    jaAtirado = new boolean[TAMANHO][TAMANHO];
+    fatias = new ImageIcon[TAMANHO][TAMANHO];
+    botoes = new JButton[TAMANHO][TAMANHO];
+
+    acertos = new int[NOMES.length];
+
+    setTitle(dificil ? "Batalha Naval - Difícil" : "Batalha Naval - Fácil");
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setLayout(new BorderLayout());
+
+    lblTiros = new JLabel(
+        "Tiros restantes: " + tirosRestantes,
+        SwingConstants.CENTER
+    );
+
+    add(lblTiros, BorderLayout.NORTH);
+
+    posicionarNavios();
+    add(criarPainelTabuleiro(), BorderLayout.CENTER);
+
+    pack();
+    setLocationRelativeTo(null);
+}
     // Sorteia a posição de cada navio (só na horizontal, sem sobrepor)
     private void posicionarNavios() {
         Random rnd = new Random();
