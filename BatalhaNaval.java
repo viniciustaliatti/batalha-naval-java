@@ -26,7 +26,7 @@ public class BatalhaNaval extends JFrame {
     private int[] TAMANHOS;
     private String[] IMAGENS;
 
-    // Pastas onde o programa tenta achar as imagens
+    // Pastas onde o programa acha as imagens
     private static final String[] PASTAS = {
          "batalha-naval-java/images/",
         "images/",
@@ -127,7 +127,7 @@ public class BatalhaNaval extends JFrame {
     pack();
     setLocationRelativeTo(null);
 }
-    // Sorteia a posição de cada navio (só na horizontal, sem sobrepor)
+    // Sorteia a posição de cada navio (só na horizontal)
     private void posicionarNavios() {
         Random rnd = new Random();
         for (int i = 0; i < NOMES.length; i++) {
@@ -157,7 +157,7 @@ public class BatalhaNaval extends JFrame {
             }
         }
     }
-    // Carrega a imagem do navio e corta em 'tam' pedaços, um para cada casa
+    // Carrega a imagem do navio e corta em 'tam' (pedaços), um para cada casa
     private ImageIcon[] cortarImagem(String arquivo, int tam) {
         BufferedImage original = null;
         for (String pasta : PASTAS) {
