@@ -6,33 +6,26 @@ public class principal {
         SwingUtilities.invokeLater(() -> escolherDificuldade());
     }
 
-    private static void escolherDificuldade() {
+    public static void escolherDificuldade() {
         String[] opcoes = {"Fácil", "Difícil"};
 
-        while (true) {
-            int escolha = JOptionPane.showOptionDialog(
-                null,
-                "Escolha a dificuldade:",
-                "Batalha Naval",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                opcoes,
-                opcoes[0]
-            );
+        int escolha = JOptionPane.showOptionDialog(
+            null,
+            "Escolha a dificuldade:",
+            "Batalha Naval",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            opcoes,
+            opcoes[0]
+        );
 
-            if (escolha == 0) {
-                BatalhaNaval form = new BatalhaNaval(false);
-                form.setVisible(true);
-                return;
-
-            } else if (escolha == 1) {
-                BatalhaNaval form = new BatalhaNaval(true);
-                form.setVisible(true);
-                return;
-            } else {
-                System.exit(0);
-            }
+        if (escolha == 0) {
+            new BatalhaNaval(false).setVisible(true);
+        } else if (escolha == 1) {
+            new BatalhaNaval(true).setVisible(true);
+        } else {
+            System.exit(0);
         }
     }
 }

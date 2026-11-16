@@ -20,24 +20,22 @@ public class BatalhaNaval extends JFrame {
 
     private int TAMANHO;
     private int TOTAL_TIROS;
-    private static final int CELULA = 80; // tamanho de cada casa em pixels
+    private static final int CELULA = 80;
 
     private String[] NOMES;
     private int[] TAMANHOS;
     private String[] IMAGENS;
 
-    // Pastas onde o programa acha as imagens
     private static final String[] PASTAS = {
-         "batalha-naval-java/images/",
+        "batalha-naval-java/images/",
         "images/",
         "../batalha-naval-java/images/",
         "../images/"
     };
 
-    // 0 = água, 1..5 = navio (índice do navio + 1)
     private int[][] tabuleiro;
     private boolean[][] jaAtirado;
-    private ImageIcon[][] fatias; // pedaço da imagem de cada casa
+    private ImageIcon[][] fatias;
     private JButton[][] botoes;
 
     private int[] acertos;
@@ -49,85 +47,93 @@ public class BatalhaNaval extends JFrame {
     public BatalhaNaval() {
         this(false);
     }
-    public BatalhaNaval(boolean dificil){
-        if(dificil){
-        TAMANHO = 8;
-        TOTAL_TIROS = 40;
 
-        NOMES = new String[] {
-            "Porta-aviões",
-            "Encouraçado", "Encouraçado",
-            "Cruzador", "Cruzador",
-            "Submarino", "Submarino", "Submarino", "Submarino", "Submarino", "Submarino",
-            "Destroyer", "Destroyer"
-        };
+    public BatalhaNaval(boolean dificil) {
+        if (dificil) {
+            TAMANHO = 8;
+            TOTAL_TIROS = 40;
 
-        TAMANHOS = new int[] {
-            5, 4, 4, 3, 3, 1, 1, 1, 1, 1, 1, 2, 2
-        };
+            NOMES = new String[] {
+                "Porta-aviões",
+                "Encouraçado", "Encouraçado",
+                "Cruzador", "Cruzador",
+                "Submarino", "Submarino", "Submarino", "Submarino", "Submarino", "Submarino",
+                "Destroyer", "Destroyer"
+            };
 
-        IMAGENS = new String[] {
-            "Aircraft-Carrier.png",
-            "battleship.png", "battleship.png",
-            "cruiser.png", "cruiser.png",
-            "submarino.png", "submarino.png",
-            "submarino.png", "submarino.png",
-            "submarino.png", "submarino.png",
-            "destroyer.png", "destroyer.png"
-        };
+            TAMANHOS = new int[] {
+                5, 4, 4, 3, 3, 1, 1, 1, 1, 1, 1, 2, 2
+            };
 
-    } else {
+            IMAGENS = new String[] {
+                "Aircraft-Carrier.png",
+                "battleship.png", "battleship.png",
+                "cruiser.png", "cruiser.png",
+                "submarino.png", "submarino.png",
+                "submarino.png", "submarino.png",
+                "submarino.png", "submarino.png",
+                "destroyer.png", "destroyer.png"
+            };
 
-        TAMANHO = 6;
-        TOTAL_TIROS = 30;
+        } else {
+            TAMANHO = 6;
+            TOTAL_TIROS = 30;
 
-        NOMES = new String[] {
-            "Porta-aviões", "Encouraçado", "Cruzador",
-            "Submarino", "Submarino", "Submarino", "Submarino",
-            "Destroyer", "Destroyer"
-        };
+            NOMES = new String[] {
+                "Porta-aviões", "Encouraçado", "Cruzador",
+                "Submarino", "Submarino", "Submarino", "Submarino",
+                "Destroyer", "Destroyer"
+            };
 
-        TAMANHOS = new int[] {
-            5, 4, 3, 1, 1, 1, 1, 2, 2
-        };
+            TAMANHOS = new int[] {
+                5, 4, 3, 1, 1, 1, 1, 2, 2
+            };
 
-        IMAGENS = new String[] {
-            "Aircraft-Carrier.png",
-            "battleship.png",
-            "cruiser.png",
-            "submarino.png", "submarino.png",
-            "submarino.png", "submarino.png",
-            "destroyer.png", "destroyer.png"
-        };
+            IMAGENS = new String[] {
+                "Aircraft-Carrier.png",
+                "battleship.png",
+                "cruiser.png",
+                "submarino.png", "submarino.png",
+                "submarino.png", "submarino.png",
+                "destroyer.png", "destroyer.png"
+            };
+        }
+
+        tirosRestantes = TOTAL_TIROS;
+
+        tabuleiro = new int[TAMANHO][TAMANHO];
+        jaAtirado = new boolean[TAMANHO][TAMANHO];
+        fatias = new ImageIcon[TAMANHO][TAMANHO];
+        botoes = new JButton[TAMANHO][TAMANHO];
+
+        acertos = new int[NOMES.length];
+
+        setTitle(dificil ? "Batalha Naval - Difícil" : "Batalha Naval - Fácil");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        lblTiros = new JLabel(
+            "Tiros restantes: " + tirosRestantes,
+            SwingConstants.CENTER
+        );
+        add(lblTiros, BorderLayout.NORTH);
+
+        posicionarNavios();
+        add(criarPainelTabuleiro(), BorderLayout.CENTER);
+
+        JButton btnVoltar = new JButton("Voltar");
+        btnVoltar.addActionListener(e -> {
+            dispose();
+            principal.escolherDificuldade();
+        });
+        JPanel painelSul = new JPanel();
+        painelSul.add(btnVoltar);
+        add(painelSul, BorderLayout.SOUTH);
+
+        pack();
+        setLocationRelativeTo(null);
     }
 
-    tirosRestantes = TOTAL_TIROS;
-
-    tabuleiro = new int[TAMANHO][TAMANHO];
-    jaAtirado = new boolean[TAMANHO][TAMANHO];
-    fatias = new ImageIcon[TAMANHO][TAMANHO];
-    botoes = new JButton[TAMANHO][TAMANHO];
-
-    acertos = new int[NOMES.length];
-
-    setTitle(dificil ? "Batalha Naval - Difícil" : "Batalha Naval - Fácil");
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setLayout(new BorderLayout());
-
-    lblTiros = new JLabel(
-        "Tiros restantes: " + tirosRestantes,
-        SwingConstants.CENTER
-    );
-
-    add(lblTiros, BorderLayout.NORTH);
-
-    posicionarNavios();
-    add(criarPainelTabuleiro(), BorderLayout.CENTER);
-
-    pack();
-    setLocationRelativeTo(null);
-}
-    // Sorteia a posição de cada navio (só na horizontal)
     private void posicionarNavios() {
         Random rnd = new Random();
         for (int i = 0; i < NOMES.length; i++) {
@@ -157,7 +163,7 @@ public class BatalhaNaval extends JFrame {
             }
         }
     }
-    // Carrega a imagem do navio e corta em 'tam' (pedaços), um para cada casa
+
     private ImageIcon[] cortarImagem(String arquivo, int tam) {
         BufferedImage original = null;
         for (String pasta : PASTAS) {
@@ -176,7 +182,6 @@ public class BatalhaNaval extends JFrame {
             return null;
         }
 
-        // Redimensiona o navio inteiro para (tam casas) x (1 casa)
         BufferedImage ajustada = new BufferedImage(tam * CELULA, CELULA, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = ajustada.createGraphics();
         g.setRenderingHint(java.awt.RenderingHints.KEY_INTERPOLATION,
@@ -190,6 +195,7 @@ public class BatalhaNaval extends JFrame {
         }
         return pedacos;
     }
+
     private JPanel criarPainelTabuleiro() {
         JPanel painel = new JPanel(new GridLayout(TAMANHO, TAMANHO, 2, 2));
         painel.setPreferredSize(new Dimension(TAMANHO * CELULA + 10, TAMANHO * CELULA + 10));
@@ -210,7 +216,7 @@ public class BatalhaNaval extends JFrame {
         }
         return painel;
     }
-    // Mostra a casa como acerto: imagem do navio
+
     private void marcarAcerto(int linha, int coluna) {
         JButton botao = botoes[linha][coluna];
         if (fatias[linha][coluna] != null) {
@@ -218,6 +224,7 @@ public class BatalhaNaval extends JFrame {
             botao.setBackground(new Color(60, 90, 130));
         }
     }
+
     private void atirar(int linha, int coluna) {
         if (jaAtirado[linha][coluna]) {
             return;
@@ -257,7 +264,7 @@ public class BatalhaNaval extends JFrame {
             JOptionPane.showMessageDialog(this, "Acabaram os tiros! Você perdeu.");
         }
     }
-    // Impede novos cliques (marcando tudo como já atirado)
+
     private void desativarTabuleiro() {
         for (int linha = 0; linha < TAMANHO; linha++) {
             for (int coluna = 0; coluna < TAMANHO; coluna++) {
@@ -265,7 +272,8 @@ public class BatalhaNaval extends JFrame {
             }
         }
     }
-    // Quando o jogador perde, mostra os navios que sobraram
+
+
     private void revelarNavios() {
         for (int linha = 0; linha < TAMANHO; linha++) {
             for (int coluna = 0; coluna < TAMANHO; coluna++) {
