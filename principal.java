@@ -23,7 +23,6 @@ public class principal {
         SwingUtilities.invokeLater(() -> escolherDificuldade());
     }
 
-    // Menu inicial (também chamado pelo botão "Voltar" do jogo)
     public static void escolherDificuldade() {
         JFrame menu = new JFrame("Batalha Naval");
         menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,9 +73,7 @@ public class principal {
         menu.setVisible(true);
     }
 
-    // Fundo com a imagem do mar
     private static class FundoMar extends JPanel {
-        // Pastas onde o programa procura a imagem
         private static final String[] PASTAS = {
             "batalha-naval-java/images/",
             "images/",
@@ -110,14 +107,13 @@ public class principal {
             if (imagem != null) {
                 g2.drawImage(imagem, 0, 0, getWidth(), getHeight(), null);
             } else {
-                g2.setColor(new Color(45, 125, 195)); // cor de reserva se a imagem não for encontrada
+                g2.setColor(new Color(45, 125, 195));
                 g2.fillRect(0, 0, getWidth(), getHeight());
             }
             g2.dispose();
         }
     }
 
-    // Botão arredondado com efeito ao passar o mouse e ao clicar
     private static class BotaoMenu extends JButton {
         private final Color cor;
 
@@ -156,4 +152,4 @@ public class principal {
             super.paintComponent(g);
         }
     }
-}
+} 
