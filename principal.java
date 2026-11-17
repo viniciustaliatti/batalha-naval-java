@@ -38,8 +38,8 @@ public class principal {
         titulo.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
         JLabel subtitulo = new JLabel("Escolha a dificuldade");
-        subtitulo.setFont(new Font("Arial", Font.PLAIN, 15));
-        subtitulo.setForeground(new Color(190, 220, 245));
+        subtitulo.setFont(new Font("Arial", Font.BOLD, 17));
+        subtitulo.setForeground(Color.WHITE);
         subtitulo.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
         BotaoMenu facil = new BotaoMenu("Fácil", "Tabuleiro 6x6  •  30 tiros", new Color(45, 160, 90));
@@ -84,7 +84,7 @@ public class principal {
             "../images/"
         };
 
-        private BufferedImage imagem = carregarImagem("desenho-do-mar.png");
+        private BufferedImage imagem = carregarImagem("mar.jpg");
 
         private static BufferedImage carregarImagem(String arquivo) {
             for (String pasta : PASTAS) {
