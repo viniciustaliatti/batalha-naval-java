@@ -37,7 +37,7 @@ public class principal {
         titulo.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
         JLabel subtitulo = new JLabel("Escolha a dificuldade");
-        subtitulo.setFont(new Font("Arial", Font.BOLD, 17));
+        subtitulo.setFont(new Font("Arial", Font.BOLD, 20));
         subtitulo.setForeground(Color.WHITE);
         subtitulo.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
@@ -121,7 +121,7 @@ public class principal {
             super("<html><div style='text-align:center'><b style='font-size:16px'>" + texto
                 + "</b><br><span style='font-size:10px'>" + detalhe + "</span></div></html>");
             this.cor = cor;
-            setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            setFont(new Font("Arial", Font.PLAIN, 12));
             setForeground(Color.WHITE);
             setContentAreaFilled(false);
             setBorderPainted(false);
@@ -129,7 +129,7 @@ public class principal {
             setRolloverEnabled(true);
             setCursor(new Cursor(Cursor.HAND_CURSOR));
             setAlignmentX(CENTER_ALIGNMENT);
-            Dimension tamanho = new Dimension(260, 58);
+            Dimension tamanho = new Dimension(260, 60);
             setPreferredSize(tamanho);
             setMaximumSize(tamanho);
         }
@@ -146,10 +146,10 @@ public class principal {
                 atual = cor.brighter();
             }
             g2.setColor(atual);
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 24, 24);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
             g2.dispose();
 
             super.paintComponent(g);
         }
     }
-} 
+}
