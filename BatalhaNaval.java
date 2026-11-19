@@ -108,7 +108,11 @@ public class BatalhaNaval extends JFrame {
 
         acertos = new int[NOMES.length];
 
-        setTitle(dificil ? "Batalha Naval - Difícil" : "Batalha Naval - Fácil");
+       if (dificil) {
+    setTitle("Batalha Naval - Difícil");
+        } else {
+            setTitle("Batalha Naval - Fácil");
+        }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
