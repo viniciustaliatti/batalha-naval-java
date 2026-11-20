@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -37,6 +38,7 @@ public class BatalhaNaval extends JFrame {
     private boolean[][] jaAtirado;
     private ImageIcon[][] fatias;
     private JButton[][] botoes;
+    private ImageIcon imagemMar;
 
     private int[] acertos;
     private int naviosAfundados = 0;
@@ -105,6 +107,7 @@ public class BatalhaNaval extends JFrame {
         jaAtirado = new boolean[TAMANHO][TAMANHO];
         fatias = new ImageIcon[TAMANHO][TAMANHO];
         botoes = new JButton[TAMANHO][TAMANHO];
+        imagemMar = carregarImagemMar();
 
         acertos = new int[NOMES.length];
 
@@ -168,6 +171,26 @@ public class BatalhaNaval extends JFrame {
         }
     }
 
+    private ImageIcon carregarImagemMar(){
+        for(String pasta : PASTAS){
+            File f = new File(pasta + "marBotoes.jpg");
+
+            if (f.exists()){
+                try{
+                    BufferedImage imagem = ImageIO.read(f);
+                    Image imagemRedimensionada = imagem.getScaledInstance(
+                        CELULA,CELULA, Image.SCALE_SMOOTH
+                    );
+                    return new ImageIcon(imagemRedimensionada);
+                } catch (Exception e) {
+                    System.out.println("Erro ao carregar imagem do mar.");
+                }
+            }
+        }
+        System.out.println("Não consegui carregar marBotoes.jpg");
+        return null;
+    }
+
     private ImageIcon[] cortarImagem(String arquivo, int tam) {
         BufferedImage original = null;
         for (String pasta : PASTAS) {
@@ -211,6 +234,10 @@ public class BatalhaNaval extends JFrame {
                 botao.setBorderPainted(false);
                 botao.setMargin(new Insets(0, 0, 0, 0));
                 botao.setBackground(new Color(100, 170, 230));
+
+                if (imagemMar != null){
+                    botao.setIcon(imagemMar);
+                }
                 botoes[linha][coluna] = botao;
                 final int l = linha;
                 final int c = coluna;
@@ -225,7 +252,7 @@ public class BatalhaNaval extends JFrame {
         JButton botao = botoes[linha][coluna];
         if (fatias[linha][coluna] != null) {
             botao.setIcon(fatias[linha][coluna]);
-            botao.setBackground(new Color(60, 90, 130));
+            botao.setBackground(new Color(24, 124, 247));
         }
     }
 
@@ -240,6 +267,7 @@ public class BatalhaNaval extends JFrame {
         String resultado;
 
         if (id == 0) {
+            botao.setIcon(null);
             botao.setText("X");
             botao.setForeground(Color.WHITE);
             botao.setBackground(Color.RED);
@@ -255,7 +283,7 @@ public class BatalhaNaval extends JFrame {
             }
         }
 
-        tirosRestantes--;
+        tirosRestantes --;
         String posicao = "" + (char) ('A' + linha) + (coluna + 1);
         lblTiros.setText("Tiros restantes: " + tirosRestantes + "  |  Último tiro: " + posicao + " (" + resultado + ")");
 
@@ -263,8 +291,8 @@ public class BatalhaNaval extends JFrame {
             desativarTabuleiro();
             JOptionPane.showMessageDialog(this, "Você venceu! Todos os navios afundaram.");
         } else if (tirosRestantes == 0) {
-            desativarTabuleiro();
             revelarNavios();
+            desativarTabuleiro();
             JOptionPane.showMessageDialog(this, "Acabaram os tiros! Você perdeu.");
         }
     }
@@ -281,12 +309,16 @@ public class BatalhaNaval extends JFrame {
     private void revelarNavios() {
         for (int linha = 0; linha < TAMANHO; linha++) {
             for (int coluna = 0; coluna < TAMANHO; coluna++) {
-                boolean naoAtingido = botoes[linha][coluna].getIcon() == null
-                        && botoes[linha][coluna].getText().isEmpty();
-                if (tabuleiro[linha][coluna] != 0 && naoAtingido) {
-                    marcarAcerto(linha, coluna);
+               if (!jaAtirado[linha][coluna]){
+                int id = tabuleiro[linha][coluna];
+                if (id != 0){
+                    botoes[linha][coluna].setIcon(
+                        fatias[linha][coluna]
+                    );
+                    botoes[linha][coluna].setText("");
                     botoes[linha][coluna].setBackground(Color.ORANGE);
                 }
+               }
             }
         }
     }
