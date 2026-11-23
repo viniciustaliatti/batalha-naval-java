@@ -2,7 +2,9 @@
 
 Jogo de Batalha Naval com interface gráfica, feito em Java com Swing. Você tem um número limitado de tiros para afundar todos os navios escondidos no tabuleiro.
 
-# Estrutura do projeto
+## Estrutura do projeto
+
+```
 batalha-naval-java-main/
 ├── images/
 │   ├── Aircraft-Carrier.png
@@ -12,5 +14,6 @@ batalha-naval-java-main/
 │   ├── submarino.png
 │   └── desenho-do-mar.png
 ├── BatalhaNaval.java
-├── principal.java   
+├── principal.java
 └── README.md
+```
