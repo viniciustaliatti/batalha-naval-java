@@ -268,9 +268,8 @@ public class BatalhaNaval extends JFrame {
 
         if (id == 0) {
             botao.setIcon(null);
-            botao.setText("X");
-            botao.setForeground(Color.WHITE);
-            botao.setBackground(Color.RED);
+            botao.setForeground(Color.BLACK);
+            botao.setBackground(new Color(24, 124, 247));
             resultado = "Água";
         } else {
             marcarAcerto(linha, coluna);
